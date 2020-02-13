@@ -4,36 +4,7 @@ class LinkedListNode
   def initialize(value, next_node=nil)
     @value = value
     @next_node = next_node
-    
   end
-end
-
-class Stack
-
-  def initialize
-    @first = nil
-  end
-
-  def push(value)
-    @first = Node.new(value, @first)
-  end
-  alias_method :"<<", :push
-
-  def pop
-    raise "Stack is empty" if is_empty?
-    value = @first.value
-    @first = @first.next_node
-    value
-  end
-
-  def is_empty?
-    @first.nil?
-  end
-end
-
-
-def reverse_list(list_node)
-  
 end
 
 def print_values(list_node)
@@ -46,7 +17,35 @@ def print_values(list_node)
   end
 end
 
-stack = LinkedList::Stack.new
+class Stack
+  attr_reader :data
+
+  def initialize
+    @data = nil
+  end
+
+  def push(value)
+    @data = LinkedListNode.new(value, @data)
+  end
+
+  def pop
+    out = @data.value
+    @data = LinkedListNode.new(@data.next_node.value, @data.next_node.next_node)
+    puts out
+  end
+end
+
+
+def reverse_list(list)
+  stack = Stack.new
+
+  while list
+      stack.push(list.value)
+      list = list.next_node
+  end
+
+  return stack.data
+end
 
 node1 = LinkedListNode.new(37)
 node2 = LinkedListNode.new(99, node1)
@@ -54,7 +53,7 @@ node3 = LinkedListNode.new(12, node2)
 
 print_values(node3)
 
-puts"------------------"
+puts "-------"
 
 revlist = reverse_list(node3)
 
